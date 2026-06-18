@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controller
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
-    public class StoreController : ControllerBase
+    [Route("api/[controller]")]
+    public class ProductController : StoreController
     {
 
     }
