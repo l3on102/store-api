@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Api.Data;
+using Api.Model;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Extension
@@ -19,6 +17,13 @@ IConfiguration configuration
                 options.UseNpgsql(
                     configuration.GetConnectionString("PostgreSQLConnection"));
             });
+        }
+        public static void AddPostgreSqlIdentityContext(
+            this IServiceCollection services
+        )
+        {
+            services.AddIdentity<AppUser, IdentityRole>()
+            .AddEntityFrameworkStores<AppDbContext>();
         }
 
 
