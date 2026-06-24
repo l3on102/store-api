@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260621182756_AddIdentityDbContext")]
-    partial class AddIdentityDbContext
+    [Migration("20260624212248_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,144 @@ namespace Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Api.Model.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("SpecialTag")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Category = "категория 3",
+                            Description = "Намеченных обеспечение задания интересный принципов обеспечение условий важную предложений роль.",
+                            Image = "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40",
+                            Name = "Практичный Неодимовый Автомобиль",
+                            Price = 159.77000000000001,
+                            SpecialTag = "новинка"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Category = "категория 1",
+                            Description = "Задач массового образом прогрессивного новая не интересный задача широкому.",
+                            Image = "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40",
+                            Name = "Грубый Хлопковый Кулон",
+                            Price = 469.37,
+                            SpecialTag = "рекомендуемый"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Category = "категория 1",
+                            Description = "Значимость показывает зависит всего.",
+                            Image = "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40",
+                            Name = "Практичный Деревянный Кулон",
+                            Price = 327.19999999999999,
+                            SpecialTag = "новинка"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Category = "категория 3",
+                            Description = "Для а высокотехнологичная внедрения сфера с подготовке определения однако очевидна.",
+                            Image = "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40",
+                            Name = "Фантастический Меховой Ножницы",
+                            Price = 958.29999999999995,
+                            SpecialTag = "новинка"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Category = "категория 3",
+                            Description = "А практика забывать интересный порядка поэтапного уточнения с важную высокотехнологичная.",
+                            Image = "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40",
+                            Name = "Интеллектуальный Меховой Шарф",
+                            Price = 480.89999999999998,
+                            SpecialTag = "популярный"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Category = "категория 2",
+                            Description = "А внедрения идейные проект.",
+                            Image = "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40",
+                            Name = "Практичный Неодимовый Стол",
+                            Price = 478.04000000000002,
+                            SpecialTag = "рекомендуемый"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Category = "категория 2",
+                            Description = "От интересный создаёт показывает от.",
+                            Image = "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40",
+                            Name = "Невероятный Меховой Плащ",
+                            Price = 49.840000000000003,
+                            SpecialTag = "новинка"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Category = "категория 2",
+                            Description = "Последовательного требует выбранный анализа повседневной значение определения.",
+                            Image = "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40",
+                            Name = "Невероятный Деревянный Шарф",
+                            Price = 996.34000000000003,
+                            SpecialTag = "рекомендуемый"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Category = "категория 3",
+                            Description = "Показывает качественно условий.",
+                            Image = "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40",
+                            Name = "Грубый Бетонный Автомобиль",
+                            Price = 120.55,
+                            SpecialTag = "новинка"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Category = "категория 1",
+                            Description = "Влечёт существующий занимаемых обеспечивает организационной консультация.",
+                            Image = "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40",
+                            Name = "Потрясающий Пластиковый Автомобиль",
+                            Price = 963.55999999999995,
+                            SpecialTag = "новинка"
+                        });
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -88,6 +226,11 @@ namespace Api.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("character varying(13)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -138,6 +281,10 @@ namespace Api.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator().HasValue("IdentityUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -219,6 +366,17 @@ namespace Api.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Api.Model.AppUser", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasDiscriminator().HasValue("AppUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

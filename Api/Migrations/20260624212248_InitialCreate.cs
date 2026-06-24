@@ -4,10 +4,12 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Api.Migrations
 {
     /// <inheritdoc />
-    public partial class AddDbContext : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,6 +33,8 @@ namespace Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
+                    Discriminator = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -49,6 +53,24 @@ namespace Api.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    SpecialTag = table.Column<string>(type: "text", nullable: false),
+                    Category = table.Column<string>(type: "text", nullable: false),
+                    Price = table.Column<double>(type: "double precision", nullable: false),
+                    Image = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,6 +179,23 @@ namespace Api.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "Category", "Description", "Image", "Name", "Price", "SpecialTag" },
+                values: new object[,]
+                {
+                    { 1, "категория 3", "Намеченных обеспечение задания интересный принципов обеспечение условий важную предложений роль.", "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40", "Практичный Неодимовый Автомобиль", 159.77000000000001, "новинка" },
+                    { 2, "категория 1", "Задач массового образом прогрессивного новая не интересный задача широкому.", "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40", "Грубый Хлопковый Кулон", 469.37, "рекомендуемый" },
+                    { 3, "категория 1", "Значимость показывает зависит всего.", "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40", "Практичный Деревянный Кулон", 327.19999999999999, "новинка" },
+                    { 4, "категория 3", "Для а высокотехнологичная внедрения сфера с подготовке определения однако очевидна.", "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40", "Фантастический Меховой Ножницы", 958.29999999999995, "новинка" },
+                    { 5, "категория 3", "А практика забывать интересный порядка поэтапного уточнения с важную высокотехнологичная.", "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40", "Интеллектуальный Меховой Шарф", 480.89999999999998, "популярный" },
+                    { 6, "категория 2", "А внедрения идейные проект.", "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40", "Практичный Неодимовый Стол", 478.04000000000002, "рекомендуемый" },
+                    { 7, "категория 2", "От интересный создаёт показывает от.", "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40", "Невероятный Меховой Плащ", 49.840000000000003, "новинка" },
+                    { 8, "категория 2", "Последовательного требует выбранный анализа повседневной значение определения.", "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40", "Невероятный Деревянный Шарф", 996.34000000000003, "рекомендуемый" },
+                    { 9, "категория 3", "Показывает качественно условий.", "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40", "Грубый Бетонный Автомобиль", 120.55, "новинка" },
+                    { 10, "категория 1", "Влечёт существующий занимаемых обеспечивает организационной консультация.", "https://imgplaceholdr.com/200x200/cccccc/969696/png?text_size=40", "Потрясающий Пластиковый Автомобиль", 963.55999999999995, "новинка" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -212,6 +251,9 @@ namespace Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
