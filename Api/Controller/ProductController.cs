@@ -1,5 +1,6 @@
+using System.Net;
 using Api.Data;
-
+using Api.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,13 @@ namespace Api.Controller
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
-            return Ok(await dbContext.Products.ToListAsync());
+            ResponseServer response = new ResponseServer
+            {
+                StatusCode = HttpStatusCode.OK,
+                Result = await dbContext.Products.ToListAsync()
+            };
+
+            return Ok(response);
         }
     }
 }
