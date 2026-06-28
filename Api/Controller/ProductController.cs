@@ -15,16 +15,36 @@ namespace Api.Controller
 
         }
 
+        // [HttpGet]
+        // public async Task<IActionResult> GetProducts()
+        // {
+        //     ResponseServer response = new ResponseServer
+        //     {
+        //         StatusCode = HttpStatusCode.OK,
+        //         Result = await dbContext.Products.ToListAsync()
+        //     };
+
+        //     return Ok(response);
+        // }
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
-            ResponseServer response = new ResponseServer
+            return Ok(
+            new ResponseServer
             {
                 StatusCode = HttpStatusCode.OK,
                 Result = await dbContext.Products.ToListAsync()
-            };
-
-            return Ok(response);
+            });
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductById(int id)
+        {
+            return Ok(
+            new ResponseServer
+            {
+                StatusCode = HttpStatusCode.OK,
+                Result = await dbContext.Products.FindAsync(id)
+            });
         }
     }
 }
