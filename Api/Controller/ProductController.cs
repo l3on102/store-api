@@ -38,7 +38,7 @@ namespace Api.Controller
             });
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = nameof(GetProductById))]
         public async Task<IActionResult> GetProductById(int id)
         {
             var product = await dbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
@@ -76,9 +76,65 @@ namespace Api.Controller
 
         [HttpPost]
         public async Task<ActionResult<ResponseServer>> CreateProduct(
-[FromBody] ProductCreateDto createDto
+        [FromBody] ProductCreateDto productCreateDto
         )
         {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (productCreateDto.Image == null
+                || productCreateDto.Image.Length == 0)
+                    {
+                        return BadRequest(new ResponseServer
+                        {
+                            StatusCode = HttpStatusCode.BadRequest,
+                            IsSuccess = false,
+                            ErrorMessages = new() { "Image не может быть пустым" }
+                        });
+                    }
+                    else
+                    {
+                        Product item = new()
+                        {
+                            Name = productCreateDto.Name,
+                            Description = productCreateDto.Description,
+                            SpecialTag = productCreateDto.SpecialTag,
+                            Category = productCreateDto.Category,
+                            Price = productCreateDto.Price,
+                            Image = $"https://imgplaceholdr.com/250x250/cccccc/969696/png?text_size=40"
+                        };
+                        await dbContext.Products.AddAsync(item);
+                        await dbContext.SaveChangesAsync();
+
+                        ResponseServer response = new()
+                        {
+                            StatusCode = HttpStatusCode.Created,
+                            Result = item
+                        };
+
+                        return CreatedAtRoute(nameof(GetProductById), new { id = item.Id }, response);
+                    }
+                }
+                else
+                {
+                    return BadRequest(new ResponseServer
+                    {
+                        IsSuccess = false,
+                        StatusCode = HttpStatusCode.BadRequest,
+                        ErrorMessages = new() { "Модель данных не подходит" }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResponseServer
+                {
+                    IsSuccess = false,
+                    StatusCode = HttpStatusCode.BadRequest,
+                    ErrorMessages = new() { "Что то пошло не так", ex.Message }
+                });
+            }
 
         }
     }
